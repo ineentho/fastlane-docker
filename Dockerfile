@@ -1,19 +1,4 @@
 # Based on https://github.com/milch/fastlane-docker
-FROM buildpack-deps:jessie as xar_builder
-
-ENV XAR_VERSION "1.6.1"
-USER root
-
-WORKDIR /tmp
-
-# Build xar
-ADD https://github.com/downloads/mackyle/xar/xar-$XAR_VERSION.tar.gz .
-RUN tar -xzf xar-$XAR_VERSION.tar.gz \
-	&& mv xar-$XAR_VERSION xar \
-	&& cd xar \
-	&& ./autogen.sh --noconfigure \
-	&& ./configure \
-	&& make 
 
 # Extract the neccesary files from the iTMSTransporter Windows installer
 FROM debian:stretch-slim as itms_transporter
@@ -63,12 +48,6 @@ RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sou
 	&& rm -rf /var/lib/apt/lists/* \
     && useradd -m builder
 
-COPY --from=xar_builder /tmp/xar /tmp/xar
-
-RUN cd /tmp/xar \
-	&& make install \
-	&& rm -rf /tmp/*
-
 COPY --from=itms_transporter /itms /itms
 RUN chown -R builder:builder /itms
 
@@ -76,7 +55,6 @@ ENV FASTLANE_ITUNES_TRANSPORTER_PATH=/itms
 ENV FASTLANE_ITUNES_TRANSPORTER_USE_SHELL_SCRIPT=1
 
 USER builder
-
 
 # RUN gem install fastlane
 RUN mkdir -p /home/builder/workspace
