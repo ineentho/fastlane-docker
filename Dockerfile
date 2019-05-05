@@ -29,9 +29,6 @@ ENV PATH $PATH:/usr/local/itms/bin
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
-# Required for iTMSTransporter to find Java
-# ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/jre
-
 USER root
 
 # iTMSTransporter needs java installed
