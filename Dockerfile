@@ -32,18 +32,11 @@ ENV LC_ALL C.UTF-8
 USER root
 
 # iTMSTransporter needs java installed
-# We also have to install make to install xar
-# And finally shellcheck
-RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list \
-	&& apt-get update \
-	&& apt-get install --yes \
-		make \
-		shellcheck \
-        less \
-        default-jre-headless \
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/* \
-    && useradd -m builder
+RUN apt-get update \
+  && apt-get install --yes \
+    default-jre-headless \
+  && apt-get clean \
+  && useradd -m builder
 
 COPY --from=itms_transporter /itms /itms
 RUN chown -R builder:builder /itms
