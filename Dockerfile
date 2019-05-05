@@ -41,12 +41,13 @@ RUN apt-get update \
 COPY --from=itms_transporter /itms /itms
 RUN chown -R builder:builder /itms
 
+RUN gem install fastlane -NV
+
 ENV FASTLANE_ITUNES_TRANSPORTER_PATH=/itms
 ENV FASTLANE_ITUNES_TRANSPORTER_USE_SHELL_SCRIPT=1
 
 USER builder
 
-# RUN gem install fastlane
 RUN mkdir -p /home/builder/workspace
 ENV HOME /home/builder
 RUN chmod a+rwx /home/builder
