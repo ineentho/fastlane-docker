@@ -58,7 +58,7 @@ RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sou
 		make \
 		shellcheck \
         less \
-        default-jre \
+        default-jre-headless \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* \
     && useradd -m builder
