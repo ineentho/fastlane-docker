@@ -29,34 +29,25 @@ ENV PATH $PATH:/usr/local/itms/bin
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
-# Required for iTMSTransporter to find Java
-# ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/jre
-
 USER root
 
 # iTMSTransporter needs java installed
-# We also have to install make to install xar
-# And finally shellcheck
-RUN echo 'deb http://deb.debian.org/debian jessie-backports main' > /etc/apt/sources.list.d/jessie-backports.list \
-	&& apt-get update \
-	&& apt-get install --yes \
-		make \
-		shellcheck \
-        less \
-        default-jre-headless \
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists/* \
-    && useradd -m builder
+RUN apt-get update \
+  && apt-get install --yes \
+    default-jre-headless \
+  && apt-get clean \
+  && useradd -m builder
 
 COPY --from=itms_transporter /itms /itms
 RUN chown -R builder:builder /itms
+
+RUN gem install fastlane -NV
 
 ENV FASTLANE_ITUNES_TRANSPORTER_PATH=/itms
 ENV FASTLANE_ITUNES_TRANSPORTER_USE_SHELL_SCRIPT=1
 
 USER builder
 
-# RUN gem install fastlane
 RUN mkdir -p /home/builder/workspace
 ENV HOME /home/builder
 RUN chmod a+rwx /home/builder
