@@ -4,4 +4,4 @@
 
 This is accomplished by using an older version of iTMSTransporter found in the windows installer. Read more about the challenges of uploading iOS apps on linux here at [fastlane#14256](https://github.com/fastlane/fastlane/issues/14256).
 
-The build image is available as [ineentho/fastlane-docker](https://hub.docker.com/r/ineentho/fastlane-docker).
+The buildt image is available as [ineentho/fastlane-docker](https://hub.docker.com/r/ineentho/fastlane-docker).
